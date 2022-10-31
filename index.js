@@ -5,7 +5,7 @@ import serve from "koa-static";
 
 const app = new Koa();
 const httpServer = http.createServer(app.callback());
-const io = new Server(httpServer, { cors: { origin: "http://localhost:3000" } });
+const io = new Server(httpServer, { cors: { origin: "*" } });
 
 let field = null;
 
