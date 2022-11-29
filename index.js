@@ -16,7 +16,8 @@ app.use(bodyParser());
 app.use(serve('./frontend'));
 
 const SIZE = 48;
-let field = new Array(SIZE * SIZE).fill("#fff");
+const DEFAULT_VALUE = new Array(SIZE * SIZE).fill("#fff");
+let field = [...DEFAULT_VALUE];
 const io = new Server(httpServer, { cors: { origin: "*" } });
 const gameIo = io.of("/game");
 
@@ -37,6 +38,12 @@ gameIo.on("connection", (socket) => {
 
     socket.on("RUN_BOT!", () => {
         startBot(socket);
+    })
+
+    socket.on("CLEAR", () => {
+        field = [...DEFAULT_VALUE];
+        socket.emit("NEW_VALUE", DEFAULT_VALUE);
+        socket.broadcast.emit("NEW_VALUE", DEFAULT_VALUE);
     })
 });
 /** game stuff end **/
