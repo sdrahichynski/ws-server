@@ -2,6 +2,7 @@ import Koa from "koa";
 import http from "node:http";
 import { Server } from "socket.io";
 import serve from "koa-static";
+import send from "koa-send";
 import Router from "koa-router"
 import cors from "@koa/cors";
 import bodyParser from "koa-bodyparser";
@@ -92,6 +93,13 @@ router.post('/publish', async (ctx, next) => {
 });
 /** chat stuff **/
 
+router.get('/chat', async (ctx, next) => {
+    ctx.res.statusCode = 200;
+
+    await send(ctx, './frontend/index.html');
+
+    await next();
+});
 
 app.use(router.routes());
 
